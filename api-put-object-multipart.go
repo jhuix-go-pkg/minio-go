@@ -391,6 +391,7 @@ func (c *Client) completeMultipartUpload(ctx context.Context, bucketName, object
 		Location:         completeMultipartUploadResult.Location,
 		Expiration:       expTime,
 		ExpirationRuleID: ruleID,
+		LastModified:     amzLastModified(resp.Header.Get("Date")),
 	}, nil
 
 }

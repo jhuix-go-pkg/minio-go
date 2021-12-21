@@ -122,6 +122,7 @@ type AdvancedRemoveOptions struct {
 type RemoveObjectOptions struct {
 	ForceDelete      bool
 	GovernanceBypass bool
+	Recursive        bool
 	VersionID        string
 	Internal         AdvancedRemoveOptions
 }
@@ -147,6 +148,9 @@ func (c *Client) removeObject(ctx context.Context, bucketName, objectName string
 
 	if opts.VersionID != "" {
 		urlValues.Set("versionId", opts.VersionID)
+	}
+	if opts.Recursive {
+		urlValues.Set("recursive", "true")
 	}
 
 	// Build headers.

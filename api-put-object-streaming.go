@@ -485,5 +485,6 @@ func (c *Client) putObjectDo(ctx context.Context, bucketName, objectName string,
 		Size:             size,
 		Expiration:       expTime,
 		ExpirationRuleID: ruleID,
+		LastModified:     amzLastModified(resp.Header.Get("Date")),
 	}, nil
 }

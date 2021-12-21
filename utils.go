@@ -48,6 +48,15 @@ func trimEtag(etag string) string {
 	return strings.TrimSuffix(etag, "\"")
 }
 
+func amzLastModified(date string) time.Time {
+	lastModified, err := parseRFC7231Time(date)
+	if err != nil {
+		return time.Time{}
+	}
+
+	return lastModified
+}
+
 var expirationRegex = regexp.MustCompile(`expiry-date="(.*?)", rule-id="(.*?)"`)
 
 func amzExpirationToExpiryDateRuleID(expiration string) (time.Time, string) {
@@ -251,6 +260,7 @@ func parseTime(t string, formats ...string) (time.Time, error) {
 	for _, format := range formats {
 		tt, err := time.Parse(format, t)
 		if err == nil {
+			tt = tt.Local()
 			return tt, nil
 		}
 	}
